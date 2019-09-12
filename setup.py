@@ -11,8 +11,8 @@ setup(name='tap-csv',
       py_modules=['tap_csv'],
       install_requires=[
           'singer-python==5.7.0',
-          'backoff>=1.3.2',
-          'requests>=2.12.4',
+          'backoff==1.8.0',
+          'requests==2.12.4',
       ],
       entry_points='''
           [console_scripts]
