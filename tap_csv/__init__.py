@@ -62,6 +62,8 @@ def sync_file(fileInfo):
         for row in reader:
             if (encoding == 'utf-16-le'): # UTF-16 LE introduces a null bit at the front of the file that messes up the header keys
                 row[0] = row[0].replace(u'\ufeff', '')
+                if quotechar is not None:
+                    row[0] = row[0].replace(quotechar, '')
             if(needsHeader):
                 header_map = write_schema_from_header(fileInfo["entity"], row, fileInfo["keys"])
                 needsHeader = False
