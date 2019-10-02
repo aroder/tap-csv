@@ -48,14 +48,16 @@ def process_file(fileInfo):
         sync_file(fileInfo)
 
 def sync_file(fileInfo):
-    if fileInfo["file"][-4:] != ".csv":
+    if fileInfo["file"][-4:].lower() != ".csv":
         logger.info("Skipping non-csv file '" + fileInfo["file"] + "'")
         return
 
     logger.info("Syncing entity '" + fileInfo["entity"] + "' from file: '" + fileInfo["file"] + "'")
     with open(fileInfo["file"], "r") as f:
         needsHeader = True
-        reader = csv.reader(f)
+        delimiter = CONFIG["delimiter"] if CONFIG["delimiter"] is not None else ','
+        quotechar = CONFIG["quotechar"] # accept None as default value
+        reader = csv.reader(f, delimiter=delimiter, quotechar=quotechar)
         for row in reader:
             if(needsHeader):
                 header_map = write_schema_from_header(fileInfo["entity"], row, fileInfo["keys"])

@@ -10,9 +10,9 @@ setup(name='tap-csv',
       classifiers=['Programming Language :: Python :: 3 :: Only'],
       py_modules=['tap_csv'],
       install_requires=[
-          'singer-python==5.7.0',
+          'singer-python>=5.8.0',
           'backoff==1.8.0',
-          'requests==2.12.4',
+          'requests>=2.22.0',
       ],
       entry_points='''
           [console_scripts]
