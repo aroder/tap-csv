@@ -48,15 +48,15 @@ def process_file(fileInfo):
         sync_file(fileInfo)
 
 def sync_file(fileInfo):
-    if fileInfo["file"][-4:].lower() != ".csv":
+    if fileInfo["file"][-4:].lower() not in [".csv", ".tsv"]:
         logger.info("Skipping non-csv file '" + fileInfo["file"] + "'")
         return
 
     logger.info("Syncing entity '" + fileInfo["entity"] + "' from file: '" + fileInfo["file"] + "'")
     with open(fileInfo["file"], "r") as f:
         needsHeader = True
-        delimiter = CONFIG["delimiter"] if CONFIG["delimiter"] is not None else ','
-        quotechar = CONFIG["quotechar"] # accept None as default value
+        delimiter = fileInfo["delimiter"] if 'delimiter' in fileInfo is not None else ','
+        quotechar = fileInfo["quotechar"] if 'quotechar' in fileInfo is not None else None
         reader = csv.reader(f, delimiter=delimiter, quotechar=quotechar)
         for row in reader:
             if(needsHeader):
