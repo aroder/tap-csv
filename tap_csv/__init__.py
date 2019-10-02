@@ -53,10 +53,11 @@ def sync_file(fileInfo):
         return
 
     logger.info("Syncing entity '" + fileInfo["entity"] + "' from file: '" + fileInfo["file"] + "'")
-    with open(fileInfo["file"], "r") as f:
+    encoding = fileInfo["encoding"] if 'encoding' in fileInfo else 'utf-8'
+    with open(fileInfo["file"], "r", encoding=encoding) as f:
         needsHeader = True
-        delimiter = fileInfo["delimiter"] if 'delimiter' in fileInfo is not None else ','
-        quotechar = fileInfo["quotechar"] if 'quotechar' in fileInfo is not None else None
+        delimiter = fileInfo["delimiter"] if 'delimiter' in fileInfo else ','
+        quotechar = fileInfo["quotechar"] if 'quotechar' in fileInfo else None
         reader = csv.reader(f, delimiter=delimiter, quotechar=quotechar)
         for row in reader:
             if(needsHeader):
